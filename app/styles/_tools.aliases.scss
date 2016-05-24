@@ -1,0 +1,8 @@
+// Reassign `$inuit-base-spacing-unit` to `$space`.
+$space: $inuit-base-spacing-unit;
+$space--large: $inuit-base-spacing-unit--large;
+
+// Reassign lengthy font-size mixin to `font-size()`.
+@mixin font-size($args...) {
+    @include inuit-font-size($args...);
+}
