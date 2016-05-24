@@ -31,7 +31,7 @@ gulp.task('html', ['styles'], function () {
     .pipe($.if('*.css', $.csso()))
     .pipe(assets.restore())
     .pipe($.useref())
-    .pipe($.if('*.html', $.minifyHtml({conditionals: false, loose: true})))    
+    .pipe($.if('*.html', $.minifyHtml({conditionals: false, loose: true})))
     .pipe(gulp.dest('dist'));
 });
 
@@ -117,6 +117,15 @@ gulp.task('watch', ['connect'], function () {
 gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras'], function () {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
+
+gulp.task('deploy', function() {
+  return gulp.src('./dist/**/*')
+    .pipe($.ghPages({
+      remoteUrl: 'https://github.com/kartoteket/kartoteket.github.io',
+      branch: 'master'
+    }));
+});
+
 
 gulp.task('default', ['clean'], function () {
   gulp.start('build');
