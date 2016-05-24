@@ -1,0 +1,153 @@
+// bower:scss
+// endbower
+
+// inuit framework
+// We import types of file in the following order:
+
+// Settings -- Sass vars, etc.
+@import "../../bower_components/inuit-defaults/settings.defaults";
+@import "settings.general";
+
+// Tools -- Functions and mixins.
+@import "../../bower_components/inuit-functions/tools.functions";
+@import "../../bower_components/inuit-mixins/tools.mixins";
+@import "tools.aliases";
+
+// Generic -- Generic, high-level styling, like resets, etc.
+@import "../../bower_components/inuit-normalize/generic.normalize";
+@import "../../bower_components/inuit-reset/generic.reset";
+@import "../../bower_components/inuit-shared/generic.shared";
+@import "../../bower_components/inuit-box-sizing/generic.box-sizing";
+
+// Base -- Unclasses HTML elements (e.g. `h2`, `ul`).
+@import "../../bower_components/inuit-page/base.page";
+
+// Object -- Objects and abstractions.
+@import "../../bower_components/inuit-list-bare/objects.list-bare";
+@import "../../bower_components/inuit-list-inline/_objects.list-inline.scss";
+
+// $inuit-enable-layout--center: true;
+@import "../../bower_components/inuit-layout/_objects.layout.scss";
+
+.layout__item--main {
+  // display: inline-block;
+  padding-left: 24px;
+  vertical-align: top;
+  // width: 100%;
+  // @extend .layout__item;
+}
+
+// Components -- Your designed UI elements (inuitcss includes none of these).
+
+// Trumps -- Overrides and helper classes.
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  font-family: Inconsolata,'Helvetica Neue', Helvetica, Arial, sans-serif;        
+}
+
+// typografy
+h1, h2, h3, h4, h5, h6 {
+  font-family: roboto, sans-serif;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #fff;
+}
+h1 {border-width:4px; }
+h2 {border-width:2px;}
+p {
+    color: lighten($inuit-base-text-color,70%);
+}
+a { 
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid #fff;
+  padding-bottom:1px;
+
+  &:hover {
+    color:#dd4814;
+  }
+}
+
+//layout
+.layout__item--main {
+  max-width: 800px;
+}
+
+.site-header {
+  // margin-top: $space--large;
+  padding-top: $space--large;
+}
+
+// [1] Sticky footer
+.page-wrapper {
+  color: #fff;
+  background: linear-gradient(90deg, #232526 10%, #414345 90%);
+
+  min-height: 100%;                   // [1]
+  margin-bottom: -$footer_height*1px; /* [1] equal to footer height */
+  padding-left: $space;
+  padding-right: $space;
+}
+
+.page-wrapper:after {         // [1]
+  content: "";
+  display: block;
+}
+
+.site-footer, .page-wrapper:after { // [1]
+  height: $footer_height*1px; 
+}
+
+.address {
+ border-top: 2px solid #fff;
+ // margin-top: $space;
+ padding-top: $space;
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.work-list {
+  margin-bottom: $space;
+}
+
+.paralleles-of-latitude, .lat {
+  display: none;
+  @extend %list-bare;
+  position: absolute;
+  top:-5%;
+  right: 1%;
+  height: 50%;
+  width: $space;
+  color: lighten($inuit-base-text-color,20%);
+}
+
+  .lat__line {
+    position: absolute;
+    width: 100%;
+    text-align: right;
+  }
+
+  // create classes for positioning the latitude-lines 
+  @for $i from 0 through 10 {
+    .lat__line--#{$i}0 {
+      top: #{(100-($i*10))*1%}; 
+    }
+  }
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
