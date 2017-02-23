@@ -31,7 +31,7 @@
 
 .layout__item--main {
   // display: inline-block;
-  padding-left: 24px;
+  padding-left: $space--huge;
   vertical-align: top;
   // width: 100%;
   // @extend .layout__item;
@@ -62,13 +62,26 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
   padding-bottom: 3px;
   border-bottom: 1px solid #fff;
+
+  a {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
 }
+
 h1 {border-width:4px; }
-h2 {border-width:2px;}
+
+h2 {
+  border-width:2px;
+  margin-top: $space--large;
+  // margin-left: $space--large * -1
+}
+
 p {
     color: lighten($inuit-base-text-color,70%);
 }
-a { 
+
+a {
   color: inherit;
   text-decoration: none;
   border-bottom: 1px solid #fff;
@@ -78,6 +91,7 @@ a {
     color:#dd4814;
   }
 }
+
 
 //layout
 .layout__item--main {
@@ -106,7 +120,7 @@ a {
 }
 
 .site-footer, .page-wrapper:after { // [1]
-  height: $footer_height*1px; 
+  height: $footer_height*1px;
 }
 
 .address {
@@ -121,6 +135,12 @@ a {
 .work-list {
   margin-bottom: $space;
 }
+.portfolio-list {
+  > li {
+    margin-bottom: $space
+  }
+}
+
 
 .paralleles-of-latitude, .lat {
   display: none;
@@ -130,7 +150,7 @@ a {
   right: 1%;
   height: 50%;
   width: $space;
-  color: lighten($inuit-base-text-color,20%);
+  color: lighten($inuit-base-text-color,10%);
 }
 
   .lat__line {
@@ -139,10 +159,10 @@ a {
     text-align: right;
   }
 
-  // create classes for positioning the latitude-lines 
+  // create classes for positioning the latitude-lines
   @for $i from 0 through 10 {
     .lat__line--#{$i}0 {
-      top: #{(100-($i*10))*1%}; 
+      top: #{(100-($i*10))*1%};
     }
   }
 
