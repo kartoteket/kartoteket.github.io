@@ -34,7 +34,10 @@
 
         <div class="layout__item--main">
           <div class="content">
-            <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin" src="https://cdn.rawgit.com/svale/395e33b41fc76f1eb37ab5ef6d3ad237/raw/a48bbe551824d80856d3c123587401df0a188c67/index.html" marginwidth="0" marginheight="0" style="height:960px;border:none;" scrolling="no"></iframe>
+            <iframe
+              src="https://cdn.rawgit.com/svale/395e33b41fc76f1eb37ab5ef6d3ad237/raw/index.html"
+              sandbox="allow-popups allow-scripts allow-forms allow-same-origin"
+              marginwidth="0" marginheight="0" style="border:none;" scrolling="no"></iframe>
           </div>
 
           <div class="comments">
@@ -69,8 +72,37 @@
 
     ga('create', 'UA-60185757-1', 'auto');
     ga('send', 'pageview');
-
   </script>
 
+  <script>
+    (function() {
+        var throttle = function(type, name, obj) {
+            obj = obj || window;
+            var running = false;
+            var func = function() {
+                if (running) { return; }
+                running = true;
+                 requestAnimationFrame(function() {
+                    obj.dispatchEvent(new CustomEvent(name));
+                    running = false;
+                });
+            };
+            obj.addEventListener(type, func);
+        };
+
+        /* init - you can init any event */
+        throttle("resize", "optimizedResize");
+    })();
+
+    function sizeIframe() {
+      var content = document.querySelectorAll('.content')[0];
+      var iframe = document.querySelectorAll('iframe')[0];
+      width = content.offsetWidth;
+      iframe.style.height = width + 'px';
+      console.log('sized')
+    }
+    sizeIframe();
+    window.addEventListener('optimizedResize', sizeIframe);
+  </script>
 </body>
 </html>
