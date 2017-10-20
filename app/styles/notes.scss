@@ -1,0 +1,40 @@
+.page-wrapper {
+  color: #424242;
+  background: #fff;
+  margin-bottom: -100px;
+}
+
+.layout__item--main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.site-footer {
+  padding-left: 10px;
+}
+.site-footer, .page-wrapper:after {
+  height: 100px;
+}
+
+.notes-list > li {
+  width: 230px;
+  margin-right: 23px;
+}
+
+p {
+  color: #424242;
+
+  a {
+    border-bottom: 1px solid #dd4814;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  border-bottom-color: #424242;
+}
+
+iframe {
+  width: 100%;
+}

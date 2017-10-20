@@ -12,15 +12,17 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-    <!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
+    <!-- build:css ../styles/main.css -->
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="/styles/notes.css">
+
     <!-- endbuild -->
 
     <!-- fonts -->
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Inconsolata|Anonymous+Pro">
 
-    <!-- build:js scripts/vendor/modernizr.js -->
-    <script src="../bower_components/modernizr/modernizr.js"></script>
+    <!-- build:js ../scripts/vendor/modernizr.js -->
+    <script src="../../bower_components/modernizr/modernizr.js"></script>
     <!-- endbuild -->
   </head>
 
@@ -33,19 +35,25 @@
     <div class="page-wrapper layout">
 
         <header class="site-header layout__item--main" >
-          <h1>Kartoteket (3 by 5)</h1>
-          <p class="lead">Kartoteket is a small company making systems for presentation and dissemination of data and content. Our core tool is Pipalbot.</p>
+          <h1><a href="/">Kartoteket (3 by 5)</a></h1>
+          <p class="lead">Kartoteket is a small company making systems for presentation and dissemination of data and content.</p>
         </header>
 
         <div class="layout__item--main">
 
-          <h2>We make</h2>
-          <p>Pipalbot is a modern day index card system. With extras. It is an online, content agnostic database that stores just about any tabular data. The data is organised by its time and space dimensions, revealing temporal and spatial relationships.</p>
-          <p>Relationships enables analysis of patterns and interactions, transforming data to knowledge. By connecting the dots, Pipalbot paints you the picture.</p>
-          <p><a href="/portfolio">Portfolio</a> | <a href="/notes">Notebook</a></p>
-          <h2>We are</h2>
-          <p><a href="/team/bard.html">Bård Røtzer</a> && <a href="/team/svale.html">Svale Fossåskaret</a></p>
-
+          <h2>Notebook of skectches...</h2>
+          <p>...experiments, dots, lines and some loose ends.</p>
+          <ul class="list-inline notes-list">
+            <li>
+              <h4><a href="fsi/index.html">Bubble Graph</a></h4>
+              <a href="fsi/index.html"><img src="https://cdn.rawgit.com/svale/9d34f6da8b7aa9c3eb6ff9fa91dd4839/raw/7c20330645d6a0d36f4b6885e372fb92a44e3708/thumbnail.png"></a>
+              Visualising 3 dimensions the Financial Secrecy Index 2015.
+            </li>
+            <li>
+              <h4><a href="remittance/index.html">Chord Diagram</a></h4>
+              <a href="remittance/index.html"><img src="https://gist.githubusercontent.com/svale/395e33b41fc76f1eb37ab5ef6d3ad237/raw/a48bbe551824d80856d3c123587401df0a188c67/thumbnail.png"></a>
+              Visualising Remttances in- and outflows with 2016 World Bank sata.
+            </li>
         </div>
   </div>
 
