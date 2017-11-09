@@ -41,8 +41,8 @@
 
 // Trumps -- Overrides and helper classes.
 
-
-
+// texts and lines
+$front-color:   #424242;
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -61,7 +61,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Anonymous Pro', monospace, roboto, sans-serif;
   font-weight: 400;
   padding-bottom: 3px;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid $front-color;
 
   a {
     border-bottom: 0;
@@ -78,13 +78,13 @@ h2 {
 }
 
 p {
-    color: lighten($inuit-base-text-color,70%);
+    color: lighten($inuit-base-text-color,7%);
 }
 
 a {
   color: inherit;
   text-decoration: none;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid $front-color;
   padding-bottom:1px;
 
   &:hover {
@@ -105,8 +105,11 @@ a {
 
 // [1] Sticky footer
 .page-wrapper {
-  color: #fff;
-  background: linear-gradient(90deg, #232526 10%, #414345 90%);
+  // color: $front-color;
+  // background: linear-gradient(90deg, #232526 10%, #414345 90%);
+  color: #424242;
+  background: #F6F1EB;
+  // background: #E5E2DB;
 
   min-height: 100%;                   // [1]
   margin-bottom: -$footer_height*1px; /* [1] equal to footer height */
@@ -124,7 +127,7 @@ a {
 }
 
 .address {
- border-top: 2px solid #fff;
+ border-top: 2px solid $front-color;
  // margin-top: $space;
  padding-top: $space;
   p {
