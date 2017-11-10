@@ -226,7 +226,8 @@ var Chart = (function(window,d3) {
     y = d3.scaleLinear()
           .range([height, 0])
           .domain([
-              d3.min(series, function(s) { return d3.min(s.values, function(d) { return d.value; }); }),
+            0,
+              // d3.min(series, function(s) { return d3.min(s.values, function(d) { return d.value; }); }),
               d3.max(series.filter(function(d) {return d.display; }), function(s) { return d3.max(s.values, function(d) { return d.value; }); })
             ]);
 
