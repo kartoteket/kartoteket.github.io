@@ -98,7 +98,7 @@ body {
 }
 @media (min-width: 720px) {
   .caption {
-    width: 500px;
+    width: 540px;
     margin: 0 auto;
   }
 }
@@ -140,9 +140,11 @@ body {
   .button {
     flex: 1;
   }
+
   .button + .button  {
     border-left: 1px solid #706561;
   }
+
   button:hover,
   .button:hover  {
     background-color: rgba(51,46,44,0.1);
@@ -157,9 +159,16 @@ body {
     font-family : inherit;
     font-size: 12px;
   }
+
     button:focus {
       outline: none;
     }
+
+  @media (max-width: 720px) {
+  .button button span {
+      display: none;
+    }
+  }
 
   .btn--geo button {
     color: #155C2B;
@@ -170,6 +179,10 @@ body {
   .btn--partner button {
     color: #3D6E8D;
   }
+  .btn--type {
+    flex: 0 1 59px;
+  }
+
 
 .desc {
   font-family: Vollkorn, serif;

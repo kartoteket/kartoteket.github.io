@@ -1,5 +1,6 @@
 /* jshint laxbreak: true */
 /* jshint expr: true */
+/* global d3 */
 /* context dependent style sheet loading */
 function inIframe () {
  'use strict';
@@ -10,10 +11,12 @@ function inIframe () {
   }
 }
 if(inIframe()){
-  document.getElementById("pageStyle").setAttribute("href", 'style-simple.css');
+  document.getElementById('pageStyle').setAttribute('href', 'style-simple.css');
 }
 
 var Chart = (function(window,d3) {
+  /* jshint validthis: true */
+  /*jshint latedef:false*/
  'use strict';
 
   var width,
@@ -22,7 +25,8 @@ var Chart = (function(window,d3) {
       isMobileIsh,
       token = 0,
       locale = 'no',
-      sortOrder = d3.stackOrderReverse,
+      showPercentage = false,
+      sortOrder = showPercentage ? d3.stackOrderDescending : d3.stackOrderReverse,
 
       svg = d3.select('svg'),
       g = svg.append('g'),
@@ -30,7 +34,7 @@ var Chart = (function(window,d3) {
       xAxis = g.append('g').attr('class', 'axis axis--x'),
       govGroup = g.append('g').attr('class', 'gov'),
       curtain = g.append('rect').attr('class', 'curtain'), // removed after initial render
-      tooltip = d3.select(".tooltip"),
+      tooltip = d3.select('.tooltip'),
       segment,
       labels,
       govLines,
@@ -44,7 +48,6 @@ var Chart = (function(window,d3) {
       goverments,
       schemes = ['Greens','YlOrRd','PuBu'],
       timeRange = d3.range(1999, 2017),
-      formatNum= d3.format('s'),
       formatYear = d3.timeFormat('%Y'),
       parseYear = d3.timeParse('%Y'),
 
@@ -52,7 +55,7 @@ var Chart = (function(window,d3) {
       stack,
       aggregatedData = [],
       layers = [],
-      series = [[],[],[]],
+      series = [],
 
       no = d3.map()
       .set('Africa', 'Afrika')
@@ -86,10 +89,10 @@ var Chart = (function(window,d3) {
 
   // d3.csv('geo.csv', parse, init);
   d3.queue()
-    .defer(d3.csv, "geo.csv", parseRow)
-    .defer(d3.csv, "sector.csv", parseRow)
-    .defer(d3.csv, "partner.csv", parseRow)
-    .defer(d3.csv, "gov.csv", parseGov)
+    .defer(d3.csv, 'geo.csv', parseRow)
+    .defer(d3.csv, 'sector.csv', parseRow)
+    .defer(d3.csv, 'partner.csv', parseRow)
+    .defer(d3.csv, 'gov.csv', parseGov)
     .await(init);
 
   /**
@@ -97,7 +100,7 @@ var Chart = (function(window,d3) {
    */
   function init(error, geo, sector, partner, gov) {
 
-    if (error) throw error;
+    if (error) { throw error; }
 
     aggregatedData.push(aggregateByDimension('Verdensdel', geo));
     aggregatedData.push(aggregateByDimension('Sektorgruppe', sector));
@@ -106,12 +109,16 @@ var Chart = (function(window,d3) {
     // re-stack data as functional series. NB: SE OGSÅ http://learnjsdata.com/group_data.html
     timeRange.forEach( function(y) {
       var row = { year: parseYear(y) };
-      aggregatedData.forEach( function(data,i) {
-        for (var d in data) {
-          row[d] = data[d][y];
+      aggregatedData.forEach( function(data) {
+        for (var d in data[0]) {
+          if(showPercentage) {
+            row[d] = Math.round(data[0][d][y] / data[1][y] * 100);
+          } else {
+            row[d] = data[0][d][y];
+          }
         }
-        series[i].push(row);
       });
+      series.push(row);
     });
 
     // gov
@@ -127,11 +134,15 @@ var Chart = (function(window,d3) {
 
     // ref:https://github.com/d3/d3-shape/blob/master/README.md#stack
     stack = d3.stack()
-      .keys(Object.keys(aggregatedData[token]))
+      .keys(Object.keys(aggregatedData[token][0]))
       .order(sortOrder)
       .offset(d3.stackOffsetWiggle);
 
-    layers = stack(series[token]);
+    if(showPercentage) {
+      stack.offset(d3.stackOffsetExpand);
+    }
+
+    layers = stack(series);
 
     // Ref: https://github.com/d3/d3-selection#joining-data
     segment = segments.selectAll('path').data(layers);
@@ -140,7 +151,7 @@ var Chart = (function(window,d3) {
            .attr('class', 'segment')
            .on('mouseover', mouseOver)
            .on('mouseout', mouseOut)
-           .on("mousemove", mouseMove)
+           .on('mousemove', mouseMove)
            .merge(segment);
     segment.exit().remove();
 
@@ -202,8 +213,8 @@ var Chart = (function(window,d3) {
     // layers
     segments.selectAll('.segment')
       .transition().duration(850).ease(d3.easeCubicInOut)
-        .attr("d", function(d) { return area(d); })
-        .attr("fill", function(d, i) { return color(d.index); });
+        .attr('d', function(d) { return area(d); })
+        .attr('fill', function(d) { return color(d.index); });
 
     // labels
     segments.selectAll('.label')
@@ -227,34 +238,41 @@ var Chart = (function(window,d3) {
           .tickSizeOuter(0)
           .tickPadding(- (height / 2) - 10)
         )
-        .select(".tick:last-of-type text")
-          .attr("dx", -5)
-          .style("text-anchor", "end");
+        .select('.tick:last-of-type text')
+          .attr('dx', -5)
+          .style('text-anchor', 'end');
+
 
     govGroup.selectAll('line')
-            .attr('x1', function (d, i) { return x(d.start); })
+            .attr('x1', function (d) { return x(d.start); })
             .attr('y1', 28)
             .attr('x2', function (d) { return x(d.start)+3; })
-            .attr('y2', function (d, i) { return height + ( i%2 ? -50 : -25); })
-            .attr("stroke-width", function (d, i) { return i ? 1 : 0; });
+            .transition().duration(350).ease(d3.easeCubicInOut)
+            .attr('y2', function (d, i) {
+              var modifier = showPercentage ? 0.25 : -1;
+              return height + (( i%2 ? 50 : 25 ) * modifier) ;
+            })
+            .attr('stroke-width', function (d, i) { return i ? 1 : 0; });
 
     govGroup.selectAll('.label')
-            .attr("text-anchor", function (d, i) { return i === 0 ? 'end' : 'start'; })
+            .attr('text-anchor', function (d, i) { return i === 0 ? 'end' : 'start'; })
+            .transition().duration(350).ease(d3.easeCubicInOut)
             .attr('transform', function(d, i) {
+              var modifier = showPercentage ? 0.75 : -1;
               var xPos = i === 0 ? x(d.end) : x(d.start);
-              var yPos = height + ( i%2 ? -40 : -15);
+              var yPos = height + (( i%2 ? 40 : 15 ) * modifier);
               return 'translate(' + xPos + ',' + yPos + ')';
             });
 
     govGroup.selectAll('tspan').remove();
     govGroup.selectAll('.label').append('tspan')
              .text(function(d) { return d.pm; })
-             .attr("x", function (d, i) { return i === 0 ? -10 : -1; })
+             .attr('x', function (d, i) { return i === 0 ? -10 : -1; })
              .attr('dy', '0.35em');
 
     govGroup.selectAll('.label').append('tspan')
              .text(function(d) { return '(' + d.parties + ')'; })
-             .attr("x", function (d, i) { return i === 0 ? -10 : -1; })
+             .attr('x', function (d, i) { return i === 0 ? -10 : -1; })
              .attr('dy', '1.35em')
              .style('font-size', '10px');
 
@@ -288,16 +306,16 @@ var Chart = (function(window,d3) {
   }
 
 
-  function mouseOver (d) {
+  function mouseOver () {
     d3.select(this).classed('hover', true);
   }
 
-  function mouseOut (d) {
+  function mouseOut () {
     d3.select(this).classed('hover', false);
     tooltip.classed('hidden', true);
   }
 
-  function mouseMove (d,i) {
+  function mouseMove (d) {
     var mouse = d3.mouse(this),
         mouseX = mouse[0],
         aligner = -2 + (width - mouseX) / (width / 2),
@@ -306,15 +324,17 @@ var Chart = (function(window,d3) {
         segment = d.key;
 
     if(data.hasOwnProperty(segment)) {
-      var value = formatNum(data[segment]);
+
+      var value = d3.format('s')(data[segment]);
+      var percent = d3.format('.0%')(data[segment] / aggregatedData[0][1][year]);
 
       tooltip.select('.segment').text(lang(segment));
       tooltip.select('.year').text(year);
-      tooltip.select('.value').text(value);
+      tooltip.select('.value').text(showPercentage ? percent : value);
 
-      tooltip.style("left", ( mouseX + (90 * aligner) ) +"px")
+      tooltip.style('left', ( mouseX + (90 * aligner) ) +'px')
              // .style('color', color(d.index))
-             // .style("top", "100px")
+             // .style('top', '100px')
              .classed('hidden', false);
     }
   }
@@ -328,12 +348,22 @@ var Chart = (function(window,d3) {
   }
 
   function sortStack() {
-    sortOrder = sortOrder === d3.stackOrderReverse ? d3.stackOrderInsideOut : d3.stackOrderReverse;
+    sortOrder = sortOrder ===  d3.stackOrderInsideOut ? ( showPercentage ? d3.stackOrderDescending : d3.stackOrderReverse ) : d3.stackOrderInsideOut;
     update();
   }
 
+  function type() {
+    showPercentage = !showPercentage;
+    event.target.textContent = showPercentage ? 'NOK' : '%';
+    update();
+  }
+
+
   function aggregateByDimension(dimension, data) {
-    return d3.nest()
+    var totals;
+    var sumTotals = {};
+
+    totals = d3.nest()
       .key(function(d) { return d[dimension]; })
       .rollup(function(v) {
             var row = {};
@@ -343,6 +373,14 @@ var Chart = (function(window,d3) {
           return row;
       })
       .object(data);
+
+    timeRange.forEach( function(y) {
+      sumTotals[y] = d3.nest()
+        .rollup(function(values) { return d3.sum(values, function(d) { return d[y]; }); })
+        .object(data);
+    });
+
+    return [totals, sumTotals];
   }
 
   function parseRow(input) {
@@ -391,7 +429,8 @@ var Chart = (function(window,d3) {
   return {
     render : render,
     toggle : toggle,
-    sortStack : sortStack
+    sortStack : sortStack,
+    type: type,
   };
 
 })(window,d3);
