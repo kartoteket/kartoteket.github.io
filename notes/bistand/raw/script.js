@@ -354,6 +354,7 @@ var Chart = (function(window,d3) {
 
   function type() {
     showPercentage = !showPercentage;
+    sortOrder = showPercentage ? d3.stackOrderDescending : d3.stackOrderReverse;
     event.target.textContent = showPercentage ? 'NOK' : '%';
     update();
   }
