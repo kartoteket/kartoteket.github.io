@@ -27,6 +27,8 @@ var Chart = (function(window,d3) {
       locale = 'no',
       showPercentage = false,
       sortOrder = showPercentage ? d3.stackOrderDescending : d3.stackOrderReverse,
+      duration = 1500,
+      delay = 2000,
 
       svg = d3.select('svg'),
       g = svg.append('g'),
@@ -125,6 +127,8 @@ var Chart = (function(window,d3) {
     goverments = gov;
 
     update();
+    // setTimeout(step, delay, 2);
+
   }
 
   /**
@@ -178,6 +182,7 @@ var Chart = (function(window,d3) {
     color = d3.scaleSequential(d3['interpolate' + schemes[token]]).domain([-4, 9]); // -4 to skip the lighter end of the scale
 
     render();
+
   }
 
 
@@ -261,6 +266,7 @@ var Chart = (function(window,d3) {
               var modifier = showPercentage ? 0.75 : -1;
               var xPos = i === 0 ? x(d.end) : x(d.start);
               var yPos = height + (( i%2 ? 40 : 15 ) * modifier);
+
               return 'translate(' + xPos + ',' + yPos + ')';
             });
 
@@ -320,6 +326,7 @@ var Chart = (function(window,d3) {
         mouseX = mouse[0],
         aligner = -2 + (width - mouseX) / (width / 2),
         year = formatYear(d3.timeYear.round(x.invert(mouseX))),
+        // year = formatYear(x.invert(mouseX)),
         data = d.filter(function(a) { return formatYear(a.data.year) === year; })[0].data,
         segment = d.key;
 
@@ -355,7 +362,9 @@ var Chart = (function(window,d3) {
   function type() {
     showPercentage = !showPercentage;
     sortOrder = showPercentage ? d3.stackOrderDescending : d3.stackOrderReverse;
-    event.target.textContent = showPercentage ? 'NOK' : '%';
+    if (event) {
+      event.target.textContent = showPercentage ? 'NOK' : '%';
+    }
     update();
   }
 
@@ -425,6 +434,18 @@ var Chart = (function(window,d3) {
       width = Math.min(window, 970) - margin.left - margin.right;
       height = width/1  - margin.top - margin.bottom;
 
+  }
+
+  function step (i) {
+    if ( i >= 75) {
+      sortStack();
+    } else if (i > 50) {
+      type();
+    } else {
+      toggle(Math.min(Math.round(i/10),3));
+    }
+    i = Math.random() * 100 | 4;
+    setTimeout(step, delay, i);
   }
 
   return {
