@@ -26,20 +26,19 @@ gulp.task('notes-styles', function () {
     .pipe(gulp.dest('.tmp/styles'));
 });
 
-gulp.task('jshint', function () {
-  return gulp.src('app/scripts/**/*.js')
-    .pipe($.jshint())
-    .pipe($.jshint.reporter('jshint-stylish'))
-    .pipe($.jshint.reporter('fail'));
-});
+// gulp.task('jshint', function () {
+//   return gulp.src('app/scripts/**/*.js')
+//     .pipe($.jshint())
+//     .pipe($.jshint.reporter('jshint-stylish'))
+//     .pipe($.jshint.reporter('fail'));
+// });
 
-gulp.task('html', ['styles', 'notes-styles', 'notes-styles'], function () {
+gulp.task('html', ['styles', 'notes-styles'], function () {
   var assets = $.useref.assets({searchPath: '{.tmp,app}'});
-
   return gulp.src('app/**/*.html')
     .pipe(assets)
-    .pipe($.if('*.js', $.uglify()))
-    .pipe($.if('*.css', $.csso()))
+    // .pipe($.if('*.js', $.uglify()))
+    // .pipe($.if('*.css', $.csso()))
     .pipe(assets.restore())
     .pipe($.useref())
     .pipe($.if('*.html', $.minifyHtml({conditionals: false, loose: true})))
@@ -135,14 +134,14 @@ gulp.task('watch', ['connect'], function () {
   gulp.watch('bower.json', ['wiredep']);
 });
 
-gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras', 'notefiles'], function () {
+gulp.task('build', ['html', 'images', 'fonts', 'extras', 'notefiles'], function () {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
 gulp.task('deploy', function() {
   return gulp.src('./dist/**/*')
     .pipe($.ghPages({
-      remoteUrl: 'https://github.com/kartoteket/kartoteket.github.io',
+      remoteUrl: 'git@github.com:kartoteket/kartoteket.github.io.git',
       branch: 'master'
     }));
 });
