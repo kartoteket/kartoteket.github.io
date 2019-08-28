@@ -43,9 +43,9 @@
           <h2>Online presence and examples</h2>
             <p>bl.ocks CodePen Github</p>
 -->
-          <h2>Forest cover Loss 2000-2017</h2>
+          <h2>Forest cover Loss 2000-2018</h2>
           <p>
-              The forest cover data tiles are generated from the <a href="http://earthenginepartners.appspot.com/science-2013-global-forest">Global Forest Change</a> dataset.<br/>
+              The forest cover data tiles are generated from the <a href="http://earthenginepartners.appspot.com/science-2013-global-forest">Global Forest Change (v 1.6)</a> dataset.<br/>
               First the the geographic areas of interest (South America, Sub-Saharan Africa and rain forest areas in Asia) was identified and mapped.<br/>
               The forest cover was extracted by masking out all pixels without any forest data or no forest loss data. Then each pixel was mapped on to a set of png map tiles.<br>
               The png tiles have a size of 256x256 pixels. Each pixel contains three channels (RGB) where we mapped the forest data.
@@ -57,7 +57,7 @@
                   <strong>G (Green)</strong>: The green channel contains a flag for tree loss (0 - 1) (1 = loss, 0 = no loss)
                 </li>
                 <li>
-                  <strong>B (Blue)</strong>: The blue channel contains the year (if applicable) when the forest loss occured (two digit, ie. 2017 = 17)
+                  <strong>B (Blue)</strong>: The blue channel contains the year (if applicable) when the forest loss occured (two digit, ie. 2018 = 18)
                 </li>
               </ul>
               This method allows us to produce a map that contains all forest data compressed into a single png tile, reducing load time.

@@ -43,42 +43,30 @@
           <h2>Online presence and examples</h2>
             <p>bl.ocks CodePen Github</p>
 -->
-          <h2>Forest cover Loss 2000-2017</h2>
+          <h2>FIRMS fire data</h2>
           <p>
-              The forest cover data tiles are generated from the <a href="http://earthenginepartners.appspot.com/science-2013-global-forest">Global Forest Change</a> dataset.<br/>
-              First the the geographic areas of interest (South America, Sub-Saharan Africa and rain forest areas in Asia) was identified and mapped.<br/>
-              The forest cover was extracted by masking out all pixels without any forest data or no forest loss data. Then each pixel was mapped on to a set of png map tiles.<br>
-              The png tiles have a size of 256x256 pixels. Each pixel contains three channels (RGB) where we mapped the forest data.
+              FIRMS fire data is near real-time data of all detected fires from the <a href="https://en.wikipedia.org/wiki/Suomi_NPP">Suomi NPP satellite</a> with a spacial resolution of
+              375 m. This resolution allows for greater detail in discovering fires at small to medium scale.<br/>
+              The data used in the rainforest maps are updated at at midnight (CET) every day, ensuring the latest data is available. <br />
+              Currently the data is filtered to show the following regions:
               <ul>
                 <li>
-                  <strong>R (Red)</strong>: The red channel contains the values for treeCover (in year 2000) in percent (0 - 100)
+                  <strong>Amazon rainforest</strong>: data available <a href="https://skogkartet.assets.3by5.no/static//assets/fires/weekly_digest_amazonas.csv">here</a> 
                 </li>
                 <li>
-                  <strong>G (Green)</strong>: The green channel contains a flag for tree loss (0 - 1) (1 = loss, 0 = no loss)
+                  <strong>Kongo Basin</strong> not yet available
                 </li>
                 <li>
-                  <strong>B (Blue)</strong>: The blue channel contains the year (if applicable) when the forest loss occured (two digit, ie. 2017 = 17)
+                  <strong>South Aast Asia</strong>not yet available
                 </li>
               </ul>
-              This method allows us to produce a map that contains all forest data compressed into a single png tile, reducing load time.
-          </p>
-          <h3>Potential issues</h3>
-          <p>
-            The forest data created does not contain data on forest that has grown back. <br/>
-            The reasoning for this is that although forest growth can be, visible in parts of the Sumatra islands,
-            the extent of forest growth in the areas that this map covers are small enough to ignore for
-            this specific implementation of the data.<br/>
           </p>
 
           <p>
 
           <h3>Citations:</h3>
           <p>
-            (Hansen, M. C., P. V. Potapov, R. Moore, M. Hancher, S. A. Turubanova, A.
-              Tyukavina, D. Thau, S. V. Stehman, S. J. Goetz, T. R. Loveland, A.
-              Kommareddy, A. Egorov, L. Chini, C. O. Justice, and J. R. G. Townshend.
-              2013. “High-Resolution Global Maps of 21st-Century Forest Cover Change.”
-              Science 342 (15 November): 850–53.)
+              Schroeder, W., Oliva, P., Giglio, L., & Csiszar, I. A. (2014). The New VIIRS 375 m active fire detection data product: algorithm description and initial assessment. Remote Sensing of Environment, 143, 85-96.
 
 
           </p>
